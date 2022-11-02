@@ -2,11 +2,11 @@
 
 #### 本案例使用 NET6.0 Winform 开发
 
-使用 ASP [Minimal-API](https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/minimal-apis?source=recommendations&view=aspnetcore-6.0) 打造的文件存储服务，它不仅仅只限于Winform
+使用 ASP [Minimal-API](https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/minimal-apis?source=recommendations&view=aspnetcore-6.0) 打造的文件存储服务，通过HTTP协议输出接口，它不仅仅只限于Winform
 
 应用实现了 `服务安装` `服务卸载` `服务启动` `服务停止` `磁盘挂载` `设置`
 
-镜像存储实现了 `上传` `下载` `删除` `查询空间`
+镜像存储HTTP实现了 `上传` `下载` `删除` `查询空间`
 
 使用Windows服务来实现开机自启，能让服务开机后便用管理员权限启动
 
