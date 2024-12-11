@@ -113,7 +113,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MinimumSize = new Size(500, 146);
             Name = "AddPath";
-            StartPosition = FormStartPosition.CenterScreen;
+            StartPosition = FormStartPosition.CenterParent;
             Text = "新增挂载";
             ResumeLayout(false);
             PerformLayout();
