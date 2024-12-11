@@ -17,10 +17,7 @@ namespace Image
         {
             relodList();
             service = ServiceController.GetServices().ToList().Find(a => a.ServiceName == "Image");
-            //btn_install.Visible = btn_uninstall.Visible = btn_stop.Visible = btn_start.Visible = true;
             base.OnLoad(e);
-            //btn_stop.Visible = btn_start.Visible = false;
-            //btn_install.Visible = btn_uninstall.Visible = false;
             if (service == null)
             {
                 btn_install.Visible = true;

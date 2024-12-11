@@ -1,5 +1,18 @@
-﻿namespace Image
+﻿using System.Text.Json.Serialization;
+
+namespace Image
 {
+    [JsonSerializable(typeof(HttpBase))]
+    [JsonSerializable(typeof(HttpPaths))]
+    [JsonSerializable(typeof(HttpData))]
+    [JsonSerializable(typeof(FileIndex))]
+    [JsonSerializable(typeof(List<FileIndex>))]
+    [JsonSerializable(typeof(TFileInfo))]
+    internal partial class SGC : JsonSerializerContext
+    {
+
+    }
+
     public class HttpPaths : HttpBase
     {
         public List<HttpInfo> data { get; set; }
@@ -34,7 +47,17 @@
     }
     public class HttpBase
     {
+        //public HttpBase(int _errno)
+        //{
+        //    errno = _errno;
+        //}
+        //public HttpBase(int _errno, string _errmsg)
+        //{
+        //    errno = _errno;
+        //    errmsg = _errmsg;
+        //}
+
         public int errno { get; set; }
-        public string errmsg { get; set; }
+        public string? errmsg { get; set; }
     }
 }

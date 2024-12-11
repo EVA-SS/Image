@@ -387,7 +387,7 @@ namespace System.Configuration.Install
 
         /// <summary>Raises the <see cref="E:System.Configuration.Install.Installer.BeforeUninstall" /> event.</summary>
         /// <param name="savedState">An <see cref="T:System.Collections.IDictionary" /> that contains the state of the computer before the installers in the <see cref="P:System.Configuration.Install.Installer.Installers" /> property uninstall their installations. </param>
-        protected virtual void OnBeforeUninstall(IDictionary savedState)
+        protected virtual void OnBeforeUninstall(IDictionary? savedState)
         {
             _beforeUninstallHandler?.Invoke(this, new InstallEventArgs(savedState));
         }
@@ -471,9 +471,9 @@ namespace System.Configuration.Install
         /// <param name="savedState">An <see cref="T:System.Collections.IDictionary" /> that contains the state of the computer after the installation was complete. </param>
         /// <exception cref="T:System.ArgumentException">The saved-state <see cref="T:System.Collections.IDictionary" /> might have been corrupted. </exception>
         /// <exception cref="T:System.Configuration.Install.InstallException">An exception occurred while uninstalling. This exception is ignored and the uninstall continues. However, the application might not be fully uninstalled after the uninstallation completes. </exception>
-        public virtual void Uninstall(IDictionary savedState)
+        public virtual void Uninstall(IDictionary? savedState)
         {
-            Exception ex = null;
+            Exception? ex = null;
             try
             {
                 OnBeforeUninstall(savedState);

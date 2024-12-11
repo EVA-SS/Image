@@ -80,6 +80,7 @@
             // txt_path
             // 
             txt_path.Dock = DockStyle.Fill;
+            txt_path.BorderWidth = 2F;
             txt_path.JoinRight = true;
             txt_path.Location = new Point(0, 38);
             txt_path.Name = "txt_path";

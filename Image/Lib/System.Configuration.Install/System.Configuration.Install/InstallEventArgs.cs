@@ -7,7 +7,7 @@ namespace System.Configuration.Install
     {
         /// <summary>Gets an <see cref="T:System.Collections.IDictionary" /> that represents the current state of the installation.</summary>
         /// <returns>An <see cref="T:System.Collections.IDictionary" /> that represents the current state of the installation.</returns>
-        public IDictionary SavedState { get; }
+        public IDictionary? SavedState { get; }
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Configuration.Install.InstallEventArgs" /> class, and leaves the <see cref="P:System.Configuration.Install.InstallEventArgs.SavedState" /> property empty.</summary>
         public InstallEventArgs()
@@ -16,7 +16,7 @@ namespace System.Configuration.Install
 
         /// <summary>Initializes a new instance of the <see cref="T:System.Configuration.Install.InstallEventArgs" /> class, and specifies the value for the <see cref="P:System.Configuration.Install.InstallEventArgs.SavedState" /> property.</summary>
         /// <param name="savedState">An <see cref="T:System.Collections.IDictionary" /> that represents the current state of the installation. </param>
-        public InstallEventArgs(IDictionary savedState)
+        public InstallEventArgs(IDictionary? savedState)
         {
             SavedState = savedState;
         }

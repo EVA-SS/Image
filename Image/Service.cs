@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using System.ServiceProcess;
-using System.Text.Json.Serialization;
 
 namespace Image
 {
@@ -167,17 +166,17 @@ namespace Image
                 if (ids.Count > 0) return new HttpData { data = ids };
                 else return new HttpBase { errno = 1, errmsg = err.Count == 0 ? "上传失败" : string.Join(" ", err) };
             });
-            app.MapGet("/file/{i}/{id}", (string i, string id, int d) =>
+            app.MapGet("/file/{i}/{id}", (HttpRequest request, string i, string id) =>
             {
                 if (string.IsNullOrEmpty(i) || string.IsNullOrEmpty(id)) return Results.NotFound();
-                if (centreImage.Paths.ContainsKey(i))
+                if (centreImage.Paths.TryGetValue(i, out var bas))
                 {
-                    var path = centreImage.Paths[i].path + id;
+                    var path = bas.path + id;
                     if (File.Exists(path))
                     {
                         var file = File.ReadAllText(path + ".ini").ToJson(SGC.Default.TFileInfo);
                         if (file == null) return Results.NotFound();
-                        if (d == 1) return Results.File(path, contentType: file.type, fileDownloadName: file.name, enableRangeProcessing: true);
+                        if (request.Query.TryGetValue("d", out _)) return Results.File(path, contentType: file.type, fileDownloadName: file.name, enableRangeProcessing: true);
                         return Results.File(path, contentType: file.type, enableRangeProcessing: true);
                     }
                 }
@@ -186,9 +185,9 @@ namespace Image
             app.MapGet("/del/{i}/{id}", (string i, string id) =>
             {
                 if (string.IsNullOrEmpty(i) || string.IsNullOrEmpty(id)) return new HttpBase { errno = 5, errmsg = "???" };
-                if (centreImage.Paths.ContainsKey(i))
+                if (centreImage.Paths.TryGetValue(i, out var bas))
                 {
-                    var path = centreImage.Paths[i] + id;
+                    var path = bas.path + id;
                     if (File.Exists(path))
                     {
                         try
@@ -217,16 +216,5 @@ namespace Image
                 app = null;
             }
         }
-    }
-
-    [JsonSerializable(typeof(HttpBase))]
-    [JsonSerializable(typeof(HttpPaths))]
-    [JsonSerializable(typeof(HttpData))]
-    [JsonSerializable(typeof(FileIndex))]
-    [JsonSerializable(typeof(List<FileIndex>))]
-    [JsonSerializable(typeof(TFileInfo))]
-    internal partial class SGC : JsonSerializerContext
-    {
-
     }
 }
