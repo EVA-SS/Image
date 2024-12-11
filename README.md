@@ -1,6 +1,6 @@
 # 镜像存储服务
 
-#### 本案例使用 NET6.0 Winform 开发
+#### 本案例使用 NET9.0 Winform 开发，全面支持AOT
 
 使用 ASP [Minimal-API](https://learn.microsoft.com/zh-cn/aspnet/core/fundamentals/minimal-apis?source=recommendations&view=aspnetcore-6.0) 打造的文件存储服务，通过HTTP协议输出接口，它不仅仅只限于Winform
 

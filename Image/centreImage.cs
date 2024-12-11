@@ -7,10 +7,7 @@
     {
         static centreImage()
         {
-            foreach (var item in Settings.ImagePath)
-            {
-                Paths.Add(item.i.ToString(), item);
-            }
+            foreach (var item in Settings.ImagePath) Paths.Add(item.i.ToString(), item);
             Assess();
             new Thread(LongTask)
             {
@@ -18,7 +15,7 @@
             }.Start();
         }
 
-        public static FileIndex Sel = null;
+        public static FileIndex? Sel = null;
         public static Dictionary<string, FileIndex> Paths = new Dictionary<string, FileIndex>();
         static long totol = 0, totol_free = 0;
 
@@ -36,7 +33,7 @@
             if (totol_free > Settings.LimitRetain)
             {
             }
-            else { Assess(); }
+            else Assess();
         }
 
         /// <summary>
@@ -46,7 +43,7 @@
         {
             Sel = AssessCore(out totol, out totol_free);
         }
-        static FileIndex AssessCore(out long totol, out long totol_free)
+        static FileIndex? AssessCore(out long totol, out long totol_free)
         {
             var drives = DriveInfo.GetDrives().ToList();
             foreach (var item in Paths)

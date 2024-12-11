@@ -28,184 +28,142 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label_desc = new System.Windows.Forms.Label();
-            this.label_title = new System.Windows.Forms.Label();
-            this.btn_save = new TSkin.TBut();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txt_port = new System.Windows.Forms.TextBox();
-            this.check_log = new System.Windows.Forms.CheckBox();
-            this.btn_add = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.txt_limitSize = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.panel3.SuspendLayout();
-            this.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Setting));
+            winBar = new AntdUI.PageHeader();
+            btn_save = new AntdUI.Button();
+            label1 = new Label();
+            txt_port = new AntdUI.Input();
+            check_log = new AntdUI.Checkbox();
+            btn_add = new AntdUI.Button();
+            label2 = new Label();
+            txt_limitSize = new AntdUI.Input();
+            label3 = new Label();
+            SuspendLayout();
             // 
-            // panel3
+            // winBar
             // 
-            this.panel3.Controls.Add(this.label_desc);
-            this.panel3.Controls.Add(this.label_title);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Padding = new System.Windows.Forms.Padding(6);
-            this.panel3.Size = new System.Drawing.Size(340, 37);
-            this.panel3.TabIndex = 0;
-            this.panel3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
-            // 
-            // label_desc
-            // 
-            this.label_desc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_desc.ForeColor = System.Drawing.Color.Gray;
-            this.label_desc.Location = new System.Drawing.Point(170, 6);
-            this.label_desc.Name = "label_desc";
-            this.label_desc.Size = new System.Drawing.Size(164, 25);
-            this.label_desc.TabIndex = 0;
-            this.label_desc.Text = "配置 端口、挂载磁盘";
-            this.label_desc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_desc.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
-            // 
-            // label_title
-            // 
-            this.label_title.AutoSize = true;
-            this.label_title.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label_title.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label_title.Location = new System.Drawing.Point(6, 6);
-            this.label_title.Name = "label_title";
-            this.label_title.Size = new System.Drawing.Size(164, 25);
-            this.label_title.TabIndex = 0;
-            this.label_title.Text = "存储镜像服务";
-            this.label_title.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
+            winBar.DividerShow = true;
+            winBar.Dock = DockStyle.Top;
+            winBar.Location = new Point(0, 0);
+            winBar.Name = "winBar";
+            winBar.ShowBack = true;
+            winBar.Size = new Size(356, 38);
+            winBar.SubText = "配置 端口、挂载磁盘";
+            winBar.TabIndex = 0;
+            winBar.Text = "存储镜像服务";
+            winBar.BackClick += winBar_BackClick;
             // 
             // btn_save
             // 
-            this.btn_save.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(144)))), ((int)(((byte)(255)))));
-            this.btn_save.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(105)))), ((int)(((byte)(236)))));
-            this.btn_save.BackColorHover = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(169)))), ((int)(((byte)(255)))));
-            this.btn_save.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.btn_save.ForeColor = System.Drawing.Color.White;
-            this.btn_save.Location = new System.Drawing.Point(0, 179);
-            this.btn_save.Name = "btn_save";
-            this.btn_save.Size = new System.Drawing.Size(340, 30);
-            this.btn_save.TabIndex = 10;
-            this.btn_save.Text = "保存";
-            this.btn_save.Click += new System.EventHandler(this.btn_save_Click);
+            btn_save.Dock = DockStyle.Bottom;
+            btn_save.Location = new Point(0, 183);
+            btn_save.Name = "btn_save";
+            btn_save.Radius = 0;
+            btn_save.Size = new Size(356, 37);
+            btn_save.TabIndex = 10;
+            btn_save.Text = "保存";
+            btn_save.Type = AntdUI.TTypeMini.Primary;
+            btn_save.WaveSize = 0;
+            btn_save.Click += btn_save_Click;
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(31, 61);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 24);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "服务端口";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
+            label1.Location = new Point(30, 60);
+            label1.Name = "label1";
+            label1.Size = new Size(74, 24);
+            label1.TabIndex = 0;
+            label1.Text = "服务端口";
+            label1.TextAlign = ContentAlignment.MiddleRight;
             // 
             // txt_port
             // 
-            this.txt_port.BackColor = System.Drawing.Color.White;
-            this.txt_port.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_port.ForeColor = System.Drawing.Color.Black;
-            this.txt_port.Location = new System.Drawing.Point(111, 63);
-            this.txt_port.Name = "txt_port";
-            this.txt_port.PlaceholderText = "端口";
-            this.txt_port.Size = new System.Drawing.Size(50, 21);
-            this.txt_port.TabIndex = 0;
+            txt_port.Location = new Point(111, 52);
+            txt_port.Name = "txt_port";
+            txt_port.PlaceholderText = "端口";
+            txt_port.Size = new Size(90, 40);
+            txt_port.TabIndex = 0;
             // 
             // check_log
             // 
-            this.check_log.AutoSize = true;
-            this.check_log.Location = new System.Drawing.Point(216, 61);
-            this.check_log.Name = "check_log";
-            this.check_log.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.check_log.Size = new System.Drawing.Size(61, 25);
-            this.check_log.TabIndex = 1;
-            this.check_log.Text = "日志";
-            this.check_log.UseVisualStyleBackColor = true;
+            check_log.AutoSizeMode = AntdUI.TAutoSize.Auto;
+            check_log.Location = new Point(224, 51);
+            check_log.Name = "check_log";
+            check_log.RightToLeft = RightToLeft.Yes;
+            check_log.Size = new Size(82, 43);
+            check_log.TabIndex = 1;
+            check_log.Text = "日志";
             // 
             // btn_add
             // 
-            this.btn_add.Location = new System.Drawing.Point(216, 107);
-            this.btn_add.Name = "btn_add";
-            this.btn_add.Size = new System.Drawing.Size(99, 28);
-            this.btn_add.TabIndex = 3;
-            this.btn_add.Text = "新增挂载";
-            this.btn_add.UseVisualStyleBackColor = true;
-            this.btn_add.Click += new System.EventHandler(this.btn_add_Click);
+            btn_add.BorderWidth = 2F;
+            btn_add.Location = new Point(216, 104);
+            btn_add.Name = "btn_add";
+            btn_add.Size = new Size(99, 35);
+            btn_add.TabIndex = 3;
+            btn_add.Text = "新增挂载";
+            btn_add.Click += btn_add_Click;
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(31, 109);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(74, 24);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "限制大小";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label2.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
+            label2.Location = new Point(30, 109);
+            label2.Name = "label2";
+            label2.Size = new Size(74, 24);
+            label2.TabIndex = 0;
+            label2.Text = "限制大小";
+            label2.TextAlign = ContentAlignment.MiddleRight;
             // 
             // txt_limitSize
             // 
-            this.txt_limitSize.BackColor = System.Drawing.Color.White;
-            this.txt_limitSize.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.txt_limitSize.ForeColor = System.Drawing.Color.Black;
-            this.txt_limitSize.Location = new System.Drawing.Point(111, 111);
-            this.txt_limitSize.Name = "txt_limitSize";
-            this.txt_limitSize.PlaceholderText = "端口";
-            this.txt_limitSize.Size = new System.Drawing.Size(50, 21);
-            this.txt_limitSize.TabIndex = 2;
+            txt_limitSize.Location = new Point(111, 101);
+            txt_limitSize.Name = "txt_limitSize";
+            txt_limitSize.PlaceholderText = "端口";
+            txt_limitSize.Size = new Size(90, 40);
+            txt_limitSize.TabIndex = 2;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft YaHei UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label3.ForeColor = System.Drawing.Color.DimGray;
-            this.label3.Location = new System.Drawing.Point(41, 140);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(184, 17);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "K=KB、M=MB、G=GB、T=TB";
-            this.label3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
+            label3.AutoSize = true;
+            label3.Font = new Font("Microsoft YaHei UI", 9F);
+            label3.ForeColor = Color.DimGray;
+            label3.Location = new Point(41, 142);
+            label3.Name = "label3";
+            label3.Size = new Size(184, 17);
+            label3.TabIndex = 0;
+            label3.Text = "K=KB、M=MB、G=GB、T=TB";
             // 
             // Setting
             // 
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.ClientSize = new System.Drawing.Size(340, 209);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.btn_add);
-            this.Controls.Add(this.btn_save);
-            this.Controls.Add(this.check_log);
-            this.Controls.Add(this.txt_limitSize);
-            this.Controls.Add(this.txt_port);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.panel3);
-            this.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ForeColor = System.Drawing.Color.Black;
-            this.Icon = global::Image.Properties.Resources.favicon;
-            this.MinimumSize = new System.Drawing.Size(356, 248);
-            this.Name = "Setting";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "设置";
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            BackColor = Color.FromArgb(250, 250, 250);
+            ClientSize = new Size(356, 220);
+            Controls.Add(btn_add);
+            Controls.Add(btn_save);
+            Controls.Add(check_log);
+            Controls.Add(txt_limitSize);
+            Controls.Add(txt_port);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Controls.Add(winBar);
+            Controls.Add(label3);
+            Font = new Font("Microsoft YaHei UI", 12F);
+            ForeColor = Color.Black;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MinimumSize = new Size(356, 220);
+            Name = "Setting";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "设置";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
-        private Label label_title;
-        private Label label_desc;
-        private Panel panel3;
-        private TSkin.TBut btn_save;
+        private AntdUI.PageHeader winBar;
+        private AntdUI.Button btn_save;
         private Label label1;
-        private TextBox txt_port;
-        private CheckBox check_log;
-        private Button btn_add;
+        private AntdUI.Input txt_port;
+        private AntdUI.Checkbox check_log;
+        private AntdUI.Button btn_add;
         private Label label2;
-        private TextBox txt_limitSize;
+        private AntdUI.Input txt_limitSize;
         private Label label3;
     }
 }

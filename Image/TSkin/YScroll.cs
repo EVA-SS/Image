@@ -251,7 +251,7 @@
         /// <summary>
         /// 绘制滚动条
         /// </summary>
-        public void DrawScroll(Graphics g)
+        public void DrawScroll(AntdUI.Canvas g)
         {
             if (!IsDraw)
                 return;
@@ -262,12 +262,9 @@
             if (sliderBounds.Height < 0) sliderBounds.Height = 10;
             sliderBounds.Y = _value == 0 ? 0 : (int)(((double)_value / (virtualHeight - ctrl.Height)) * (ctrl.Height - sliderBounds.Height));
 
-            using (var sb = new SolidBrush((isMouseDown || isMouseOnSlider) ? DownColor : DefaultColor))
+            using (var path = AntdUI.Helper.RoundPath(sliderBounds, size))
             {
-                using (var path = sliderBounds.CreateRoundedRectanglePath(size))
-                {
-                    g.FillPath(sb, path);
-                }
+                g.Fill((isMouseDown || isMouseOnSlider) ? DownColor : DefaultColor, path);
             }
         }
 

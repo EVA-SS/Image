@@ -1,42 +1,31 @@
 using System.Collections;
 using System.Configuration.Install;
-using System.Runtime.InteropServices;
 using System.ServiceProcess;
 
 namespace Image
 {
-    public partial class Main : Form
+    public partial class Main : AntdUI.BaseForm
     {
-        #region 调用非托管的动态链接库来让窗体可以拖动
-
-        [DllImport("User32.DLL")]
-        public static extern int SendMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);
-
-        [DllImport("User32.DLL")]
-        public static extern bool ReleaseCapture();
-        public void FrmMove(object sender, MouseEventArgs e)
-        {
-            ReleaseCapture();
-            SendMessage(Handle, 0x0112, 61456 | 2, 0);
-        }
-
-        #endregion
-
         public Main()
         {
             InitializeComponent();
         }
+        public void FrmMove(object sender, MouseEventArgs e) => DraggableMouseDown();
 
-        ServiceController service = null;
+        ServiceController? service = null;
         protected override void OnLoad(EventArgs e)
         {
             relodList();
             service = ServiceController.GetServices().ToList().Find(a => a.ServiceName == "Image");
+            //btn_install.Visible = btn_uninstall.Visible = btn_stop.Visible = btn_start.Visible = true;
+            base.OnLoad(e);
+            //btn_stop.Visible = btn_start.Visible = false;
+            //btn_install.Visible = btn_uninstall.Visible = false;
             if (service == null)
             {
                 btn_install.Visible = true;
                 label_state.Text = "未安装";
-                label_state.ForeColor = Color.Red;
+                label_state.State = AntdUI.TState.Error;
             }
             else
             {
@@ -45,16 +34,15 @@ namespace Image
                 {
                     btn_stop.Visible = true;
                     label_state.Text = "已启动";
-                    label_state.ForeColor = Color.FromArgb(24, 144, 255);
+                    label_state.State = AntdUI.TState.Success;
                 }
                 else
                 {
                     btn_start.Visible = true;
                     label_state.Text = "未启动";
-                    label_state.ForeColor = Color.Black;
+                    label_state.State = AntdUI.TState.Default;
                 }
             }
-            base.OnLoad(e);
             new Thread(LongTask)
             {
                 IsBackground = true
@@ -70,9 +58,9 @@ namespace Image
             });
             ti.Installers.Add(new ServiceInstaller
             {
-                DisplayName = "智慧巡检镜像端",
+                DisplayName = "镜像存储服务",
                 ServiceName = "Image",
-                Description = "智慧巡检空天一体可视化管理系统",
+                Description = "镜像存储集群",
                 //ServicesDependedOn = new string[] { "MSSQLSERVER" },//前置服务
                 StartType = ServiceStartMode.Automatic//运行方式
             });
@@ -84,7 +72,7 @@ namespace Image
         private void btn_uninstall_Click(object sender, EventArgs e)
         {
             btn_start.Visible = btn_stop.Visible = false;
-            btn_uninstall.Enabled = false;
+            btn_uninstall.Loading = true;
             bool isok = false;
             Task.Run(() =>
             {
@@ -95,21 +83,15 @@ namespace Image
                 isok = true;
             }).ContinueWith((action =>
             {
-                this.Invoke(new Action(() =>
+                btn_uninstall.Loading = false;
+                if (isok)
                 {
-                    btn_uninstall.Enabled = true;
-                    if (isok)
-                    {
-                        btn_uninstall.Visible = false;
-                        label_state.Text = "未安装";
-                        label_state.ForeColor = Color.Red;
-                        btn_install.Visible = true;
-                    }
-                    else
-                    {
-                        btn_start.Visible = btn_stop.Visible = btn_uninstall.Visible = true;
-                    }
-                }));
+                    btn_uninstall.Visible = false;
+                    label_state.Text = "未安装";
+                    label_state.State = AntdUI.TState.Error;
+                    btn_install.Visible = true;
+                }
+                else btn_start.Visible = btn_stop.Visible = btn_uninstall.Visible = true;
             }));
         }
 
@@ -117,10 +99,10 @@ namespace Image
         {
             if (Settings.ImagePath == null || Settings.ImagePath.Count == 0)
             {
-                MessageBox.Show("请先挂载磁盘");
+                AntdUI.Message.info(this, "请先挂载磁盘");
                 return;
             }
-            btn_install.Enabled = false;
+            btn_install.Loading = true;
             bool isok = false;
             Task.Run(() =>
             {
@@ -131,28 +113,22 @@ namespace Image
                 isok = true;
             }).ContinueWith((action =>
             {
-                this.Invoke(new Action(() =>
+                btn_install.Loading = false;
+                if (isok)
                 {
-                    btn_install.Enabled = true;
-                    if (isok)
-                    {
-                        label_state.Text = "未启动";
-                        label_state.ForeColor = Color.Black;
-                        btn_install.Visible = false;
-                        btn_start.Visible = btn_uninstall.Visible = true;
-                    }
-                }));
+                    label_state.Text = "未启动";
+                    label_state.State = AntdUI.TState.Default;
+                    btn_install.Visible = false;
+                    btn_start.Visible = btn_uninstall.Visible = true;
+                }
             }));
         }
 
         private void btn_start_Click(object sender, EventArgs e)
         {
-            if (service == null)
-            {
-                relod();
-            }
-            if (service == null) { return; }
-            btn_start.Enabled = false;
+            if (service == null) relod();
+            if (service == null) return;
+            btn_start.Loading = true;
             bool isok = false;
             Task.Run(() =>
             {
@@ -160,28 +136,22 @@ namespace Image
                 isok = true;
             }).ContinueWith((action =>
             {
-                this.Invoke(new Action(() =>
+                btn_start.Loading = false;
+                if (isok)
                 {
-                    btn_start.Enabled = true;
-                    if (isok)
-                    {
-                        label_state.Text = "已启动";
-                        label_state.ForeColor = Color.FromArgb(24, 144, 255);
-                        btn_start.Visible = false;
-                        btn_stop.Visible = true;
-                    }
-                }));
+                    label_state.Text = "已启动";
+                    label_state.State = AntdUI.TState.Success;
+                    btn_start.Visible = false;
+                    btn_stop.Visible = true;
+                }
             }));
         }
 
         private void btn_stop_Click(object sender, EventArgs e)
         {
-            if (service == null)
-            {
-                relod();
-            }
-            if (service == null) { return; }
-            btn_stop.Enabled = false;
+            if (service == null) relod();
+            if (service == null) return;
+            btn_stop.Loading = true;
             bool isok = false;
             Task.Run(() =>
             {
@@ -189,17 +159,14 @@ namespace Image
                 isok = true;
             }).ContinueWith((action =>
             {
-                this.Invoke(new Action(() =>
+                btn_stop.Loading = false;
+                if (isok)
                 {
-                    btn_stop.Enabled = true;
-                    if (isok)
-                    {
-                        label_state.Text = "已停止";
-                        label_state.ForeColor = Color.Black;
-                        btn_stop.Visible = false;
-                        btn_start.Visible = true;
-                    }
-                }));
+                    label_state.Text = "已停止";
+                    label_state.State = AntdUI.TState.Default;
+                    btn_stop.Visible = false;
+                    btn_start.Visible = true;
+                }
             }));
         }
 
@@ -211,7 +178,7 @@ namespace Image
             {
                 btn_install.Visible = true;
                 label_state.Text = "未安装";
-                label_state.ForeColor = Color.Red;
+                label_state.State = AntdUI.TState.Error;
             }
             else
             {
@@ -220,13 +187,13 @@ namespace Image
                 {
                     btn_stop.Visible = true;
                     label_state.Text = "已启动";
-                    label_state.ForeColor = Color.FromArgb(24, 144, 255);
+                    label_state.State = AntdUI.TState.Success;
                 }
                 else
                 {
                     btn_start.Visible = true;
                     label_state.Text = "未启动";
-                    label_state.ForeColor = Color.Black;
+                    label_state.State = AntdUI.TState.Default;
                 }
             }
         }
@@ -244,7 +211,7 @@ namespace Image
                         var drive = drives.Find(a => a.Name == item.root);
                         if (drive == null)
                         {
-                            dataG.Items.Add(new TSkinList.TitleItem(dataG)
+                            dataG.Items.Add(new TSkin.TitleItem(dataG)
                             {
                                 Tag = item.root,
                                 Prog = 1,
@@ -255,7 +222,7 @@ namespace Image
                         }
                         else
                         {
-                            dataG.Items.Add(new TSkinList.TitleItem(dataG)
+                            dataG.Items.Add(new TSkin.TitleItem(dataG)
                             {
                                 Tag = item.root,
                                 Prog = (float)(((drive.TotalSize - drive.TotalFreeSpace) * 1.0) / (drive.TotalSize * 1.0)),

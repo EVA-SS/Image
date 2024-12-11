@@ -1,22 +1,12 @@
-﻿using System.Drawing.Drawing2D;
-using TSkin;
+﻿using System.ComponentModel;
 
-namespace TSkinList
+namespace TSkin
 {
-    public partial class TitleList : Control
+    public partial class TitleList : AntdUI.IControl
     {
         public TitleList()
         {
-            SetStyle(
-                ControlStyles.UserPaint |
-                ControlStyles.AllPaintingInWmPaint |
-                ControlStyles.OptimizedDoubleBuffer |
-                ControlStyles.ResizeRedraw |
-                ControlStyles.Selectable |
-                ControlStyles.SupportsTransparentBackColor | ControlStyles.DoubleBuffer, true);
-            //强制分配样式重新应用到控件上
-            UpdateStyles();
-            chatVScroll = new TSkin.YScroll(this);
+            chatVScroll = new YScroll(this);
         }
 
         #region 属性
@@ -35,7 +25,8 @@ namespace TSkinList
             if (Items.Count > 0)
             {
                 ReadHeight = 0;
-                int hehe = 30, heheT = 72;
+                int g4 = (int)(4 * AntdUI.Config.Dpi), g10 = (int)(10 * AntdUI.Config.Dpi), g12 = (int)(12 * AntdUI.Config.Dpi), g14 = (int)(14 * AntdUI.Config.Dpi), g18 = (int)(18 * AntdUI.Config.Dpi), g22 = (int)(22 * AntdUI.Config.Dpi), g28 = (int)(28 * AntdUI.Config.Dpi),
+                    hehe = (int)(30 * AntdUI.Config.Dpi), heheT = (int)(72 * AntdUI.Config.Dpi);
                 for (int i = 0; i < Items.Count; i++)
                 {
                     TitleItem it = Items[i];
@@ -43,11 +34,10 @@ namespace TSkinList
                     if (it.Visible)
                     {
                         it.Bounds = new Rectangle(0, ReadHeight, Width, heheT);
-                        it.Bounds2 = new Rectangle(1, ReadHeight, Width - 2, heheT);
-                        it.TxtBound = new Rectangle(10, ReadHeight, Width - 10, hehe);
-                        it.DescBound = new Rectangle(14, ReadHeight + hehe, Width - 28, 18);
-                        it.ProgBound = new Rectangle(14, ReadHeight + hehe + 22, Width - 28, 12);
-                        ReadHeight += heheT + 4;
+                        it.TxtBound = new Rectangle(g10, ReadHeight, Width - g10, hehe);
+                        it.DescBound = new Rectangle(g14, ReadHeight + hehe, Width - g28, g18);
+                        it.ProgBound = new Rectangle(g14, ReadHeight + hehe + g22, Width - g28, g12);
+                        ReadHeight += heheT + g4;
                     }
                 }
                 chatVScroll.VirtualHeight = ReadHeight;
@@ -66,233 +56,69 @@ namespace TSkinList
             Invalidate();
             base.OnSizeChanged(e);
         }
+
         Color getColor(float val)
         {
-            if (val > 0.9)
-            {
-                return Color.Red;
-            }
-            else if (val > 0.8)
-            {
-                return Color.FromArgb(255, 87, 34);
-            }
-            else if (val > 0.6)
-            {
-                return Color.FromArgb(252, 212, 55);
-            }
-            else
-            {
-                return Color.FromArgb(38, 202, 119);
-            }
+            if (val > 0.9) return Color.Red;
+            else if (val > 0.8) return Color.FromArgb(255, 87, 34);
+            else if (val > 0.6) return Color.FromArgb(252, 212, 55);
+            else return Color.FromArgb(38, 202, 119);
         }
 
         #endregion
 
-        SolidBrush fontColor = new SolidBrush(Color.Black);
-        SolidBrush solidBrush = new SolidBrush(Color.White);
-        SolidBrush solidBrushH = new SolidBrush(Color.FromArgb(10, 0, 0, 0));
-
         StringFormat _StringFormat = new StringFormat { LineAlignment = StringAlignment.Center, Trimming = StringTrimming.EllipsisCharacter, FormatFlags = StringFormatFlags.NoWrap };
-        Pen pen = new Pen(Color.FromArgb(80, 80, 80), 2);
-        Font on = new Font("Microsoft YaHei UI", 8);
         protected override void OnPaint(PaintEventArgs e)
         {
-            Graphics g = e.Graphics;
+            var g = AntdUI.Helper.High(e.Graphics);
             g.TranslateTransform(0, -chatVScroll.Value);//根据滚动条的值设置坐标偏移
-            g.SmoothingMode = SmoothingMode.AntiAlias;//使绘图质量最高，即消除锯齿
-            g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-            g.PixelOffsetMode = PixelOffsetMode.HighQuality; //高像素偏移质量
-            int toms = chatVScroll.Bounds.Y + chatVScroll.Value;
-            int tom = toms - 100;
-
-            List<TitleItem> _Items = Items.FindAll(db => db.Visible && (db.Bounds.Y > tom && db.Bounds.Y - toms < Height));
-            try
+            using (var on = new Font("Microsoft YaHei UI", 8))
+            using (var brush = new SolidBrush(AntdUI.Style.Db.BgContainer))
+            using (var brushHover = new SolidBrush(Color.FromArgb(10, 0, 0, 0)))
             {
-                foreach (TitleItem it in _Items)
+                foreach (TitleItem it in Items)
                 {
-                    g.FillRectangle(solidBrush, it.Bounds);
-                    if (it.MouseHover)
+                    if (it.Visible)
                     {
-                        g.FillRectangle(solidBrushH, it.Bounds);
-                    }
-                    if (it.Prog >= 1)
-                    {
-                        using (var brush = new SolidBrush(getColor(1)))
+                        g.Fill(brush, it.Bounds);
+                        if (it.MouseHover) g.Fill(brushHover, it.Bounds);
+                        if (it.Prog >= 1) g.Fill(getColor(1), it.ProgBound);
+                        else
                         {
-                            g.FillRectangle(brush, it.ProgBound);
+                            g.Fill(brushHover, it.ProgBound);
+                            if (it.Prog > 0) g.Fill(getColor(it.Prog), new RectangleF(it.ProgBound.X, it.ProgBound.Y, (it.ProgBound.Width * 1.0F) * it.Prog, it.ProgBound.Height));
                         }
-                    }
-                    else
-                    {
-                        g.FillRectangle(solidBrushH, it.ProgBound);
-                        if (it.Prog > 0)
+                        g.String(it.Name, Font, Brushes.Black, it.TxtBound, _StringFormat);
+                        g.String(it.Desc, on, Brushes.Black, it.DescBound, _StringFormat);
+                        if (it.Select)
                         {
-                            using (var brush = new SolidBrush(getColor(it.Prog)))
+                            using (var pen = new Pen(Color.FromArgb(80, 80, 80), 2 * AntdUI.Config.Dpi))
                             {
-                                g.FillRectangle(brush, new RectangleF(it.ProgBound.X, it.ProgBound.Y, (it.ProgBound.Width * 1.0F) * it.Prog, it.ProgBound.Height));
+                                g.SetClip(it.Bounds);
+                                g.Draw(pen, it.Bounds);
+                                g.ResetClip();
                             }
                         }
                     }
-                    g.DrawString(it.Name, Font, fontColor, it.TxtBound, _StringFormat);
-                    g.DrawString(it.Desc, on, fontColor, it.DescBound, _StringFormat);
-                    if (it.Select)
-                    {
-                        g.DrawRectangle(pen, it.Bounds2);
-                    }
                 }
-                g.ResetTransform();
-                if (chatVScroll.IsDraw)
-                    chatVScroll.DrawScroll(g);
             }
-            catch { }
-
+            g.ResetTransform();
+            if (chatVScroll.IsDraw) chatVScroll.DrawScroll(g);
             base.OnPaint(e);
         }
-
-        public event DownEventHandler DownClick;
-        public delegate void DownEventHandler(TitleItem Item);
 
         Point old;
         public void refresh(TitleItem it)
         {
             int tom = chatVScroll.Bounds.Y + chatVScroll.Value;
-            this.Invalidate(new Rectangle(it.Bounds.X - 10, (it.Bounds.Y - 10) - tom, it.Bounds.Width + 20, it.Bounds.Height + 20));
+            Invalidate(new Rectangle(it.Bounds.X - 10, (it.Bounds.Y - 10) - tom, it.Bounds.Width + 20, it.Bounds.Height + 20));
         }
 
         #region 键盘操作
 
-        public bool Kdown(Keys KeyCode)
-        {
-            if (KeyCode == Keys.Down)
-            {
-                int seb = SelectIndex;
-                doha(seb);
-                return true;
-            }
-            else if (KeyCode == Keys.Up)
-            {
-                int seb = SelectIndex;
-                upha(seb);
-                return true;
-            }
-            else if (KeyCode == Keys.Enter && SelectIndex > -1)
-            {
-                TitleItem TitleItem = Items[SelectIndex];
-                if (TitleItem != null)
-                {
-                    SelectItem = TitleItem;
-                    if (TitleItem.Visible)
-                    {
-                        if (DownClick != null)
-                        {
-                            DownClick(TitleItem);
-                        }
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-        void upha(int seb)
-        {
-            int bbqq = seb -= 1; try
-            {
-                TitleItem TitleItem = Items[bbqq];
-                while (TitleItem != null)
-                {
-                    if (TitleItem.Visible)
-                    {
-                        seb = bbqq;
-                        SelectIndex = TitleItem.Index;
-                        SetSv(TitleItem);
-
-
-                        foreach (TitleItem TitleItems in Items)
-                        {
-                            if (TitleItems.Select)
-                            {
-                                TitleItems.Select = false;
-                            }
-                        }
-                        if (!TitleItem.Select)
-                        {
-                            TitleItem.Select = true;
-                        }
-                        break;
-                    }
-                    bbqq--;
-                    TitleItem = Items[bbqq];
-                }
-            }
-            catch { }
-        }
-        void doha(int seb)
-        {
-            int bbqq = seb += 1;
-            try
-            {
-                TitleItem TitleItem = Items[bbqq];
-                while (TitleItem != null)
-                {
-                    if (TitleItem.Visible)
-                    {
-                        seb = bbqq;
-                        SelectIndex = TitleItem.Index;
-
-                        SetSv(TitleItem);
-                        foreach (TitleItem TitleItems in Items)
-                        {
-                            TitleItems.Select = false;
-                        }
-                        TitleItem.Select = true;
-                        break;
-                    }
-                    bbqq++;
-                    TitleItem = Items[bbqq];
-                }
-            }
-            catch { }
-        }
-        protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
-        {
-            e.IsInputKey = true;
-            Kdown(e.KeyCode);
-            //base.OnPreviewKeyDown(e);return;
-            base.OnPreviewKeyDown(e);
-        }
-        public void SetSv(TitleItem TitleItem)
-        {
-            if (chatVScroll.IsDraw)
-            {
-                if (chatVScroll.Value + Height - 50 < TitleItem.Bounds.Y)
-                {
-                    chatVScroll.Value = TitleItem.Bounds.Y;
-                }
-                else if (chatVScroll.Value > TitleItem.Bounds.Y)
-                {
-                    chatVScroll.Value = TitleItem.Bounds.Y - 150;
-                }
-            }
-        }
-        public void SetSvs(TitleItem TitleItem)
-        {
-            if (chatVScroll.IsDraw)
-            {
-                if (chatVScroll.Value + Height < TitleItem.Bounds.Y + 100)
-                {
-                    chatVScroll.Value += 5;
-                }
-                else if (chatVScroll.Value > TitleItem.Bounds.Y - 100)
-                {
-                    chatVScroll.Value -= 5;
-                }
-            }
-        }
-
         protected override void OnMouseWheel(MouseEventArgs e)
         {
-            this.Focus();
+            Focus();
             if (e.Delta > 0) chatVScroll.Value -= 50;
             if (e.Delta < 0) chatVScroll.Value += 50;
             base.OnMouseWheel(e);
@@ -302,8 +128,8 @@ namespace TSkinList
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
-            this.Focus();
-            Point m_ptMousePos = e.Location;
+            Focus();
+            var m_ptMousePos = e.Location;
             if (e.Button == MouseButtons.Left)
             {
                 old = m_ptMousePos;
@@ -332,8 +158,6 @@ namespace TSkinList
                                     SelectIndex = i;
                                     SelectItem = it;
                                     it.Select = true;
-                                    if (DownClick != null)
-                                    { DownClick(it); }
                                     //break;
                                 }
                                 else
@@ -386,7 +210,7 @@ namespace TSkinList
                     }
 
 
-                    base.OnMouseUp(e); //this.Focus();
+                    base.OnMouseUp(e); //Focus();
                 }
             }
         }
@@ -476,19 +300,20 @@ namespace TSkinList
             base.OnLeave(e);
         }
 
-        public TitleItem SelectItem { get; set; }
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public TitleItem? SelectItem { get; private set; }
     }
 
     public class TitleItem
     {
         public TitleList control;
-        public TitleItem(TitleList control)
+        public TitleItem(TitleList _control)
         {
-            this.control = control;
+            control = _control;
         }
         public TitleItem(TitleList control, string Name) : this(control)
         {
-            this.Name = Name;
+            Name = Name;
         }
         public Rectangle TxtBound { set; get; }
         public Rectangle ProgBound { set; get; }

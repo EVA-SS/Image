@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.ServiceProcess;
 
 namespace Image
@@ -16,20 +17,20 @@ namespace Image
         [STAThread]
         static void Main(string[] arge)
         {
+            ComWrappers.RegisterForMarshalling(WinFormsComInterop.WinFormsComWrappers.Instance);
             if (arge.Length > 0)
             {
                 string argeline = string.Join(" ", arge);
                 if (argeline == "service")
                 {
-                    ServiceBase.Run(new ServiceBase[]
-                    {
-                        new Service()
-                    });
+                    ServiceBase.Run([new Service()]);
                     return;
                 }
             }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            AntdUI.Config.ShowInWindow = true;
             Application.Run(new Main());
         }
     }

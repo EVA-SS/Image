@@ -28,209 +28,165 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btn_install = new TSkin.TBut();
-            this.btn_uninstall = new TSkin.TBut();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label_desc = new System.Windows.Forms.Label();
-            this.panel_state = new System.Windows.Forms.Panel();
-            this.label_state = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label_title = new System.Windows.Forms.Label();
-            this.btn_setting = new TSkin.TBut();
-            this.btn_start = new TSkin.TBut();
-            this.btn_stop = new TSkin.TBut();
-            this.dataG = new TSkinList.TitleList();
-            this.panel3.SuspendLayout();
-            this.panel_state.SuspendLayout();
-            this.SuspendLayout();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            btn_install = new AntdUI.Button();
+            btn_uninstall = new AntdUI.Button();
+            btn_setting = new AntdUI.Button();
+            btn_start = new AntdUI.Button();
+            btn_stop = new AntdUI.Button();
+            panel_top = new Panel();
+            label_title = new AntdUI.PageHeader();
+            label_state = new AntdUI.Badge();
+            dataG = new TSkin.TitleList();
+            panel_top.SuspendLayout();
+            SuspendLayout();
             // 
             // btn_install
             // 
-            this.btn_install.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(144)))), ((int)(((byte)(255)))));
-            this.btn_install.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(105)))), ((int)(((byte)(236)))));
-            this.btn_install.BackColorHover = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(169)))), ((int)(((byte)(255)))));
-            this.btn_install.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btn_install.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btn_install.ForeColor = System.Drawing.Color.White;
-            this.btn_install.Location = new System.Drawing.Point(554, 6);
-            this.btn_install.Name = "btn_install";
-            this.btn_install.Size = new System.Drawing.Size(72, 25);
-            this.btn_install.TabIndex = 13;
-            this.btn_install.Text = "▬ 安装";
-            this.btn_install.Visible = false;
-            this.btn_install.Click += new System.EventHandler(this.btn_install_Click);
+            btn_install.AutoSizeMode = AntdUI.TAutoSize.Width;
+            btn_install.Dock = DockStyle.Right;
+            btn_install.IconSvg = "AppstoreAddOutlined";
+            btn_install.Location = new Point(543, 0);
+            btn_install.Name = "btn_install";
+            btn_install.Size = new Size(95, 38);
+            btn_install.TabIndex = 5;
+            btn_install.Text = "安装";
+            btn_install.Type = AntdUI.TTypeMini.Primary;
+            btn_install.Visible = false;
+            btn_install.Click += btn_install_Click;
             // 
             // btn_uninstall
             // 
-            this.btn_uninstall.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
-            this.btn_uninstall.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
-            this.btn_uninstall.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btn_uninstall.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.btn_uninstall.ForeColor = System.Drawing.Color.Red;
-            this.btn_uninstall.Location = new System.Drawing.Point(482, 6);
-            this.btn_uninstall.Name = "btn_uninstall";
-            this.btn_uninstall.Size = new System.Drawing.Size(72, 25);
-            this.btn_uninstall.TabIndex = 12;
-            this.btn_uninstall.Text = "▧ 卸载";
-            this.btn_uninstall.Visible = false;
-            this.btn_uninstall.Click += new System.EventHandler(this.btn_uninstall_Click);
-            // 
-            // panel3
-            // 
-            this.panel3.Controls.Add(this.label_desc);
-            this.panel3.Controls.Add(this.panel_state);
-            this.panel3.Controls.Add(this.label_title);
-            this.panel3.Controls.Add(this.btn_setting);
-            this.panel3.Controls.Add(this.btn_start);
-            this.panel3.Controls.Add(this.btn_stop);
-            this.panel3.Controls.Add(this.btn_uninstall);
-            this.panel3.Controls.Add(this.btn_install);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel3.Location = new System.Drawing.Point(0, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Padding = new System.Windows.Forms.Padding(6);
-            this.panel3.Size = new System.Drawing.Size(632, 37);
-            this.panel3.TabIndex = 0;
-            this.panel3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
-            // 
-            // label_desc
-            // 
-            this.label_desc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_desc.ForeColor = System.Drawing.Color.Gray;
-            this.label_desc.Location = new System.Drawing.Point(170, 6);
-            this.label_desc.Name = "label_desc";
-            this.label_desc.Size = new System.Drawing.Size(0, 25);
-            this.label_desc.TabIndex = 0;
-            this.label_desc.Text = "图片、视频 存储服务";
-            this.label_desc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_desc.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
-            // 
-            // panel_state
-            // 
-            this.panel_state.Controls.Add(this.label_state);
-            this.panel_state.Controls.Add(this.label6);
-            this.panel_state.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel_state.Location = new System.Drawing.Point(156, 6);
-            this.panel_state.Name = "panel_state";
-            this.panel_state.Size = new System.Drawing.Size(130, 25);
-            this.panel_state.TabIndex = 0;
-            // 
-            // label_state
-            // 
-            this.label_state.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label_state.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.label_state.Location = new System.Drawing.Point(63, 0);
-            this.label_state.Name = "label_state";
-            this.label_state.Size = new System.Drawing.Size(67, 25);
-            this.label_state.TabIndex = 0;
-            this.label_state.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label_state.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
-            // 
-            // label6
-            // 
-            this.label6.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label6.Location = new System.Drawing.Point(0, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 25);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "状态：";
-            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label6.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
-            // 
-            // label_title
-            // 
-            this.label_title.AutoSize = true;
-            this.label_title.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label_title.Font = new System.Drawing.Font("Microsoft YaHei UI", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.label_title.Location = new System.Drawing.Point(6, 6);
-            this.label_title.Name = "label_title";
-            this.label_title.Size = new System.Drawing.Size(164, 25);
-            this.label_title.TabIndex = 0;
-            this.label_title.Text = "存储镜像服务";
-            this.label_title.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
+            btn_uninstall.AutoSizeMode = AntdUI.TAutoSize.Width;
+            btn_uninstall.Dock = DockStyle.Right;
+            btn_uninstall.IconSvg = "DeleteOutlined";
+            btn_uninstall.Location = new Point(448, 0);
+            btn_uninstall.Name = "btn_uninstall";
+            btn_uninstall.Size = new Size(95, 38);
+            btn_uninstall.TabIndex = 4;
+            btn_uninstall.Text = "卸载";
+            btn_uninstall.Type = AntdUI.TTypeMini.Error;
+            btn_uninstall.Visible = false;
+            btn_uninstall.Click += btn_uninstall_Click;
             // 
             // btn_setting
             // 
-            this.btn_setting.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
-            this.btn_setting.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
-            this.btn_setting.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btn_setting.Location = new System.Drawing.Point(286, 6);
-            this.btn_setting.Name = "btn_setting";
-            this.btn_setting.Size = new System.Drawing.Size(52, 25);
-            this.btn_setting.TabIndex = 14;
-            this.btn_setting.Text = "设置";
-            this.btn_setting.Click += new System.EventHandler(this.btn_setting_Click);
+            btn_setting.AutoSizeMode = AntdUI.TAutoSize.Width;
+            btn_setting.BorderWidth = 2F;
+            btn_setting.Dock = DockStyle.Right;
+            btn_setting.IconSvg = "SettingOutlined";
+            btn_setting.Location = new Point(163, 0);
+            btn_setting.Name = "btn_setting";
+            btn_setting.Size = new Size(95, 38);
+            btn_setting.TabIndex = 1;
+            btn_setting.Text = "设置";
+            btn_setting.Click += btn_setting_Click;
             // 
             // btn_start
             // 
-            this.btn_start.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
-            this.btn_start.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
-            this.btn_start.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btn_start.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(105)))), ((int)(((byte)(236)))));
-            this.btn_start.Location = new System.Drawing.Point(338, 6);
-            this.btn_start.Name = "btn_start";
-            this.btn_start.Size = new System.Drawing.Size(72, 25);
-            this.btn_start.TabIndex = 10;
-            this.btn_start.Text = "▶ 启动";
-            this.btn_start.Visible = false;
-            this.btn_start.Click += new System.EventHandler(this.btn_start_Click);
+            btn_start.AutoSizeMode = AntdUI.TAutoSize.Width;
+            btn_start.BorderWidth = 2F;
+            btn_start.Dock = DockStyle.Right;
+            btn_start.Ghost = true;
+            btn_start.IconSvg = "PlaySquareOutlined";
+            btn_start.Location = new Point(258, 0);
+            btn_start.Name = "btn_start";
+            btn_start.Size = new Size(95, 38);
+            btn_start.TabIndex = 2;
+            btn_start.Text = "启动";
+            btn_start.Type = AntdUI.TTypeMini.Primary;
+            btn_start.Visible = false;
+            btn_start.Click += btn_start_Click;
             // 
             // btn_stop
             // 
-            this.btn_stop.BackColor = System.Drawing.Color.Red;
-            this.btn_stop.BackColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.btn_stop.Dock = System.Windows.Forms.DockStyle.Right;
-            this.btn_stop.ForeColor = System.Drawing.Color.White;
-            this.btn_stop.Location = new System.Drawing.Point(410, 6);
-            this.btn_stop.Name = "btn_stop";
-            this.btn_stop.Size = new System.Drawing.Size(72, 25);
-            this.btn_stop.TabIndex = 11;
-            this.btn_stop.Text = "■ 停止";
-            this.btn_stop.Visible = false;
-            this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
+            btn_stop.AutoSizeMode = AntdUI.TAutoSize.Width;
+            btn_stop.BorderWidth = 2F;
+            btn_stop.Dock = DockStyle.Right;
+            btn_stop.Ghost = true;
+            btn_stop.IconSvg = "StopOutlined";
+            btn_stop.Location = new Point(353, 0);
+            btn_stop.Name = "btn_stop";
+            btn_stop.Size = new Size(95, 38);
+            btn_stop.TabIndex = 3;
+            btn_stop.Text = "停止";
+            btn_stop.Type = AntdUI.TTypeMini.Error;
+            btn_stop.Visible = false;
+            btn_stop.Click += btn_stop_Click;
+            // 
+            // panel_top
+            // 
+            panel_top.Controls.Add(label_title);
+            panel_top.Controls.Add(label_state);
+            panel_top.Controls.Add(btn_setting);
+            panel_top.Controls.Add(btn_start);
+            panel_top.Controls.Add(btn_stop);
+            panel_top.Controls.Add(btn_uninstall);
+            panel_top.Controls.Add(btn_install);
+            panel_top.Dock = DockStyle.Top;
+            panel_top.Location = new Point(0, 0);
+            panel_top.Name = "panel_top";
+            panel_top.Size = new Size(638, 38);
+            panel_top.TabIndex = 0;
+            panel_top.MouseDown += FrmMove;
+            // 
+            // label_title
+            // 
+            label_title.Dock = DockStyle.Fill;
+            label_title.Location = new Point(0, 0);
+            label_title.Name = "label_title";
+            label_title.Size = new Size(140, 38);
+            label_title.SubText = "图片、视频 存储服务";
+            label_title.TabIndex = 0;
+            label_title.Text = "存储镜像服务";
+            label_title.MouseDown += FrmMove;
+            // 
+            // label_state
+            // 
+            label_state.AutoSizeMode = AntdUI.TAutoSize.Width;
+            label_state.Dock = DockStyle.Right;
+            label_state.Location = new Point(140, 0);
+            label_state.Name = "label_state";
+            label_state.Size = new Size(23, 38);
+            label_state.TabIndex = 0;
+            label_state.MouseDown += FrmMove;
             // 
             // dataG
             // 
-            this.dataG.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataG.Location = new System.Drawing.Point(0, 37);
-            this.dataG.Name = "dataG";
-            this.dataG.SelectItem = null;
-            this.dataG.Size = new System.Drawing.Size(632, 304);
-            this.dataG.TabIndex = 1;
+            dataG.Dock = DockStyle.Fill;
+            dataG.Location = new Point(0, 38);
+            dataG.Name = "dataG";
+            dataG.Size = new Size(638, 309);
+            dataG.TabIndex = 1;
             // 
             // Main
             // 
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.ClientSize = new System.Drawing.Size(632, 341);
-            this.Controls.Add(this.dataG);
-            this.Controls.Add(this.panel3);
-            this.Font = new System.Drawing.Font("Microsoft YaHei UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.ForeColor = System.Drawing.Color.Black;
-            this.Icon = global::Image.Properties.Resources.favicon;
-            this.MinimumSize = new System.Drawing.Size(648, 380);
-            this.Name = "Main";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "存储镜像服务";
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.FrmMove);
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
-            this.panel_state.ResumeLayout(false);
-            this.ResumeLayout(false);
-
+            BackColor = Color.FromArgb(250, 250, 250);
+            ClientSize = new Size(638, 347);
+            Controls.Add(dataG);
+            Controls.Add(panel_top);
+            Font = new Font("Microsoft YaHei UI", 12F);
+            ForeColor = Color.Black;
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MinimumSize = new Size(648, 380);
+            Name = "Main";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "存储镜像服务";
+            MouseDown += FrmMove;
+            panel_top.ResumeLayout(false);
+            panel_top.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
-        private TSkin.TBut btn_install;
-        private TSkin.TBut btn_uninstall;
-        private Label label_title;
-        private Label label_desc;
-        private Panel panel3;
-        private Panel panel_state;
-        private Label label_state;
-        private Label label6;
-        private TSkin.TBut btn_start;
-        private TSkin.TBut btn_stop;
-        private TSkinList.TitleList dataG;
-        private TSkin.TBut btn_setting;
+        private AntdUI.Button btn_install;
+        private AntdUI.Button btn_uninstall;
+        private AntdUI.Button btn_start;
+        private AntdUI.Button btn_stop;
+        private AntdUI.Button btn_setting;
+        private AntdUI.PageHeader label_title;
+        private Panel panel_top;
+        private AntdUI.Badge label_state;
+        private TSkin.TitleList dataG;
     }
 }
