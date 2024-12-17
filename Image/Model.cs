@@ -2,6 +2,7 @@
 
 namespace Image
 {
+    [JsonSourceGenerationOptions(WriteIndented = true)]
     [JsonSerializable(typeof(HttpBase))]
     [JsonSerializable(typeof(HttpPaths))]
     [JsonSerializable(typeof(HttpData))]
@@ -47,16 +48,6 @@ namespace Image
     }
     public class HttpBase
     {
-        //public HttpBase(int _errno)
-        //{
-        //    errno = _errno;
-        //}
-        //public HttpBase(int _errno, string _errmsg)
-        //{
-        //    errno = _errno;
-        //    errmsg = _errmsg;
-        //}
-
         public int errno { get; set; }
         public string? errmsg { get; set; }
     }

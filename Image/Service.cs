@@ -18,7 +18,7 @@ namespace Image
         protected override void OnStart(string[] args)
         {
             if (!Directory.Exists(Settings.TempPath)) Directory.CreateDirectory(Settings.TempPath);
-            var builder = WebApplication.CreateSlimBuilder(new WebApplicationOptions
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions
             {
                 ContentRootPath = Program.BasePath,
                 EnvironmentName = Microsoft.Extensions.Hosting.Environments.Staging,
